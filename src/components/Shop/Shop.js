@@ -1,31 +1,16 @@
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+import useCart from '../../hooks/useCart';
+import useProducts from '../../hooks/useProducts';
 import { addToDb, getStoredCart } from '../../utilities/fakedb';
 import Cart from '../Cart/Cart';
 import Product from '../Product/Product';
 import './Shop.css';
 
 const Shop = () => {
-    const [ cart, setCart ] = useState( [] );
-    const [ product, setProduct ] = useState( [] );
-    useEffect( () => {
-        fetch( 'products.json' )
-            .then( res => res.json() )
-            .then( data => setProduct( data ) );
-    }, [] );
-
-    useEffect( () => {
-        const storedCart = getStoredCart();
-        const savedCart = [];
-        for ( const id in storedCart ) {
-            const addedProduct = product.find( prod => prod.id === id );
-            if ( addedProduct ) {
-                const quantity = storedCart[ id ];
-                addedProduct.quantity = quantity;
-                savedCart.push( addedProduct );
-            }
-            setCart( savedCart );
-        }
-    }, [ product ] );
+    const [ products, setProducts ] = useProducts();
+    const [ cart, setCart ] = useCart( products );
 
     const handleAddToCart = ( selectedProduct ) => {
         // console.log( product );
@@ -49,11 +34,15 @@ const Shop = () => {
             <div className="product-container">
 
                 {
-                    product.map( product => <Product key={product.id} product={product} handleAddToCart={handleAddToCart}></Product> )
+                    products.map( product => <Product key={product.id} product={product} handleAddToCart={handleAddToCart}></Product> )
                 }
             </div>
             <div className="cart-container">
-                <Cart cart={cart}></Cart>
+                <Cart cart={cart}>
+                    <Link to='/orders'>
+                        <button>Review Order </button>
+                    </Link>
+                </Cart>
             </div>
         </div>
     );
