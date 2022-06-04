@@ -1,4 +1,4 @@
-import { faOtter } from '@fortawesome/free-solid-svg-icons';
+
 import React from 'react';
 import './Cart.css';
 

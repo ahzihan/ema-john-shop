@@ -31,12 +31,16 @@ const Shop = () => {
 
     return (
         <div className='shop-container'>
-            <div className="product-container">
+            <div>
+                <h2 style={{ 'text-align': 'center', 'margin-bottom': '0' }}>All Products</h2>
+                <div className="product-container">
 
-                {
-                    products.map( product => <Product key={product.id} product={product} handleAddToCart={handleAddToCart}></Product> )
-                }
+                    {
+                        products.map( product => <Product key={product.id} product={product} handleAddToCart={handleAddToCart}></Product> )
+                    }
+                </div>
             </div>
+
             <div className="cart-container">
                 <Cart cart={cart}>
                     <Link to='/orders'>
